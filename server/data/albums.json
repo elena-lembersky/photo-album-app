@@ -1,0 +1,44 @@
+[
+  {
+    "id": "1",
+    "userId": "01f5217d-3ab8-43b7-9cb1-d72ed7b29e5d",
+    "title": "Vacation 2023",
+    "coverImage": "https://picsum.photos/id/1/600/800"
+  },
+  {
+    "id": "2",
+    "userId": "01f5217d-3ab8-43b7-9cb1-d72ed7b29e5d",
+    "title": "Family Reunion",
+    "coverImage": "https://picsum.photos/id/2/600/800"
+  },
+  {
+    "id": "3",
+    "userId": "0215ae84-1067-425c-b15b-e166c461a661",
+    "title": "Graduation Day",
+    "coverImage": "https://picsum.photos/id/3/600/800"
+  },
+  {
+    "id": "4",
+    "userId": "0215ae84-1067-425c-b15b-e166c461a661",
+    "title": "Christmas 2022",
+    "coverImage": "https://picsum.photos/id/7/600/800"
+  },
+  {
+    "id": "5",
+    "userId": "48cbc77d-972d-42a7-99e3-d24f59510fd8",
+    "title": "New Year Party",
+    "coverImage": "https://picsum.photos/id/5/600/800"
+  },
+  {
+    "id": "631c70f5-02e2-472c-86de-31474b3a22c1",
+    "userId": "0e6bc9cf-93c3-47ed-addd-3e0b53c296e8",
+    "title": "My New Albom 2",
+    "coverImage": "https://picsum.photos/id/4/600/800"
+  },
+  {
+    "id": "e818d293-73b9-4c32-92a8-59ec12375337",
+    "userId": "01f5217d-3ab8-43b7-9cb1-d72ed7b29e5d",
+    "title": "My New Albom 2",
+    "coverImage": null
+  }
+]

@@ -1,0 +1,92 @@
+[
+  {
+    "id": "1",
+    "albumId": "1",
+    "url": "https://picsum.photos/id/1/600/800",
+    "title": "Beautiful Landscape"
+  },
+  {
+    "id": "2",
+    "albumId": "1",
+    "url": "https://picsum.photos/id/2/600/800",
+    "title": "City at Night"
+  },
+  {
+    "id": "3",
+    "albumId": "2",
+    "url": "https://picsum.photos/id/3/600/800",
+    "title": "Mountain View"
+  },
+  {
+    "id": "4",
+    "albumId": "2",
+    "url": "https://picsum.photos/id/4/600/800",
+    "title": "Calm Ocean"
+  },
+  {
+    "id": "5",
+    "albumId": "3",
+    "url": "https://picsum.photos/id/5/600/800",
+    "title": "Desert Sunset"
+  },
+  {
+    "id": "6",
+    "albumId": "3",
+    "url": "https://picsum.photos/id/6/600/800",
+    "title": "Forest Path"
+  },
+  {
+    "id": "7",
+    "albumId": "4",
+    "url": "https://picsum.photos/id/7/600/800",
+    "title": "Riverbank"
+  },
+  {
+    "id": "8",
+    "albumId": "4",
+    "url": "https://picsum.photos/id/8/600/800",
+    "title": "Snowy Mountains"
+  },
+  {
+    "id": "9",
+    "albumId": "5",
+    "url": "https://picsum.photos/id/9/600/800",
+    "title": "Sunny Beach"
+  },
+  {
+    "id": "10",
+    "albumId": "5",
+    "url": "https://picsum.photos/id/10/600/800",
+    "title": "Golden Field"
+  },
+  {
+    "id": "83c5acae-e8e7-4623-98a1-8efce4e428e2",
+    "albumId": "6",
+    "url": "https://picsum.photos/id/4/600/800",
+    "title": "New Photo"
+  },
+  {
+    "id": "245885b7-263b-414a-b03b-358330081d5c",
+    "albumId": "6",
+    "url": "https://picsum.photos/id/4/600/800",
+    "title": "New Photo"
+  },
+  {
+    "id": "8aee7f41-f6c2-4f60-8c80-2e02bb09635d",
+    "albumId": "631c70f5-02e2-472c-86de-31474b3a22c1",
+    "url": "https://picsum.photos/id/4/600/800",
+    "title": "New Photo"
+  },
+  {
+    "id": "3422b1ad-1817-4024-9db8-482204c11fe1",
+    "albumId": "4",
+    "url": "https://picsum.photos/id/100/600/800",
+    "title": "My Photo"
+  },
+  {
+    "id": "a925077a-e108-4ee5-8732-988f7b1377a1",
+    "albumId": "631c70f5-02e2-472c-86de-31474b3a22c1",
+    "url": "https://picsum.photos/id/101/600/800",
+    "title": "My Photo"
+  }
+]
