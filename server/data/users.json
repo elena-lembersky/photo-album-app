@@ -1,11 +1,11 @@
 [
   {
     "id": "01f5217d-3ab8-43b7-9cb1-d72ed7b29e5d",
-    "name": "Andrey",
+    "name": "Andrey Panov",
     "email": "Sincere@april.biz",
-    "albumCount": 3,
+    "albumCount": 0,
     "createdAt": "2024-08-31T19:21:11.805Z",
-    "updatedAt": "2024-09-01T07:46:03.529Z"
+    "updatedAt": "2024-09-03T08:39:31.307Z"
   },
   {
     "id": "48cbc77d-972d-42a7-99e3-d24f59510fd8",
@@ -45,15 +45,15 @@
     "email": "Telly.Hoeger@billy.biz",
     "albumCount": 0,
     "createdAt": "2024-08-31T19:21:11.805Z",
-    "updatedAt": "2024-08-31T19:21:11.805Z"
+    "updatedAt": "2024-09-03T08:04:32.699Z"
   },
   {
     "id": "f1544b8f-1206-45ac-b7aa-83707b474bce",
-    "name": "Nicholas Runolfsdottir V",
+    "name": "Nicholas Runolfsdottir",
     "email": "Sherwood@rosamond.me",
     "albumCount": 0,
     "createdAt": "2024-08-31T19:21:11.805Z",
-    "updatedAt": "2024-08-31T19:21:11.805Z"
+    "updatedAt": "2024-09-03T08:04:13.206Z"
   },
   {
     "id": "373bcd24-3435-449d-a06e-d9c2f5fd9c96",
@@ -61,7 +61,7 @@
     "email": "Chaim_McDermott@dana.io",
     "albumCount": 0,
     "createdAt": "2024-08-31T19:21:11.805Z",
-    "updatedAt": "2024-08-31T19:21:11.805Z"
+    "updatedAt": "2024-09-03T07:26:24.153Z"
   },
   {
     "id": "282acc34-983a-4073-807d-84be2962b9dd",

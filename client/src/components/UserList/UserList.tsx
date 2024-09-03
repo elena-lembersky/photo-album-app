@@ -1,15 +1,20 @@
 import React from 'react';
 import { List, ListItem, ListItemText, IconButton, Box } from '@mui/material';
-import { Edit, Delete } from '@mui/icons-material';
+import { Edit, Delete, Add } from '@mui/icons-material';
 import { useUsers } from 'api/usersApi';
 import { User } from 'types/users.types';
 
 interface UserListProps {
   onEditUser: (user: User) => void;
-  onDeleteUser: (id: string) => void;
+  onDeleteUser: (user: User) => void;
+  onCreateUser: () => void;
 }
 
-const UserList: React.FC<UserListProps> = ({ onEditUser, onDeleteUser }) => {
+const UserList: React.FC<UserListProps> = ({
+  onCreateUser,
+  onEditUser,
+  onDeleteUser,
+}) => {
   const { data: users = [], isLoading, isError } = useUsers();
   if (isLoading) {
     return <div>Loading users...</div>;
@@ -37,7 +42,7 @@ const UserList: React.FC<UserListProps> = ({ onEditUser, onDeleteUser }) => {
                 <IconButton
                   edge="end"
                   aria-label="delete"
-                  onClick={() => onDeleteUser(user.id)}
+                  onClick={() => onDeleteUser(user)}
                 >
                   <Delete />
                 </IconButton>
@@ -48,6 +53,9 @@ const UserList: React.FC<UserListProps> = ({ onEditUser, onDeleteUser }) => {
           </ListItem>
         ))}
       </List>
+      <IconButton edge="end" aria-label="edit" onClick={() => onCreateUser()}>
+        <Add />
+      </IconButton>
     </Box>
   );
 };

@@ -58,6 +58,13 @@ const theme = createTheme({
         },
       },
     },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          width: '100%', // Sets width to 100% for all TextField components
+        },
+      },
+    },
   },
 });
 
