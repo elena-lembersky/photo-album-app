@@ -3,48 +3,62 @@ import { Container, Grid, Typography, Paper } from '@mui/material';
 import UserList from 'components/UserList';
 import CreateUserForm from 'components/CreateUserForm';
 import EditUserForm from 'components/EditUserForm';
+import RemoveUserForm from 'components/RemoveUserForm';
+import Modal from 'components/Modal';
 import useStyles from './UserCabinet.style';
-import { useDeleteUser, useEditUser } from 'api/usersApi';
 import type { User } from 'types/users.types';
 
 const UserCabinet = () => {
   const classes = useStyles();
-  const [editingUser, setEditingUser] = useState<User | null>(null); // Explicit type definition here
+  const [creatingUser, setCreatingUser] = useState<Boolean>(false);
+  const [editingUser, setEditingUser] = useState<User | null>(null);
+  const [removingUser, setRemovingUser] = useState<User | null>(null);
 
-  const { mutate: deleteUser } = useDeleteUser();
-  const { mutate: editUser } = useEditUser();
-
-  const handleEditUser = (user: User) => {
-    console.log('Edit user:', user);
-    editUser(user);
+  const handleCreate = () => {
+    setCreatingUser(true);
   };
-
-  const handleDeleteUser = (id: string) => {
-    console.log('Delete user:', id);
-    deleteUser(id);
-  };
-
   const handleEdit = (user: User) => {
     setEditingUser(user);
   };
 
+  const handleDelete = (user: User) => {
+    setRemovingUser(user);
+  };
+
   const handleClose = () => {
     setEditingUser(null);
+    setRemovingUser(null);
+    setCreatingUser(false);
   };
 
   return (
     <Container className={classes.root}>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h1" gutterBottom>
         User Cabinet
       </Typography>
       <Grid container spacing={4}>
         <Paper sx={{ padding: 2 }}>
           <Typography variant="h6">Users</Typography>
-          <UserList onEditUser={handleEdit} onDeleteUser={handleDeleteUser} />
+          <UserList
+            onCreateUser={handleCreate}
+            onEditUser={handleEdit}
+            onDeleteUser={handleDelete}
+          />
           {editingUser && (
-            <EditUserForm user={editingUser} onClose={handleClose} />
+            <Modal open={true} onClose={handleClose} title="Update User">
+              <EditUserForm user={editingUser} />
+            </Modal>
           )}
-          <CreateUserForm />
+          {removingUser && (
+            <Modal open={true} onClose={handleClose} title="Remove User">
+              <RemoveUserForm user={removingUser} />
+            </Modal>
+          )}
+          {creatingUser && (
+            <Modal open={true} onClose={handleClose} title="Create User">
+              <CreateUserForm />
+            </Modal>
+          )}
         </Paper>
       </Grid>
     </Container>
