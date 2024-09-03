@@ -33,61 +33,63 @@ const EditUserForm: React.FC<EditUserFormProps> = ({ user }) => {
     <Box
       sx={{ minWidth: '400px', width: '100%', maxWidth: '300px', mx: 'auto' }}
     >
-      <form onSubmit={handleSubmit}>
-        <Grid container direction="column" spacing={2} sx={{ mt: 2 }}>
-          <Grid item mb={2}>
-            <TextField
-              label="Name"
-              variant="outlined"
-              fullWidth
-              InputLabelProps={{ shrink: true }}
-              inputProps={{ style: { textAlign: 'left' } }}
-              required
-              id="name"
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
+      <Grid item>
+        {isError && (
+          <Typography color="error" sx={{ mt: 2, fontSize: '0.875rem' }}>
+            Error: {error?.message}
+          </Typography>
+        )}
+        {isSuccess && (
+          <Typography color="success" sx={{ mt: 2, fontSize: '0.875rem' }}>
+            User updated successfully!
+          </Typography>
+        )}
+      </Grid>
+      {!isSuccess && (
+        <form onSubmit={handleSubmit}>
+          <Grid container direction="column" spacing={2} sx={{ mt: 2 }}>
+            <Grid item mb={2}>
+              <TextField
+                label="Name"
+                variant="outlined"
+                fullWidth
+                InputLabelProps={{ shrink: true }}
+                inputProps={{ style: { textAlign: 'left' } }}
+                required
+                id="name"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </Grid>
+            <Grid item mb={2}>
+              <TextField
+                label="Email"
+                variant="outlined"
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                fullWidth
+                InputLabelProps={{ shrink: true }}
+                inputProps={{ style: { textAlign: 'left' } }}
+                required
+              />
+            </Grid>
+            <Grid item>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                fullWidth
+                disabled={isLoading}
+              >
+                Submit
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item mb={2}>
-            <TextField
-              label="Email"
-              variant="outlined"
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              fullWidth
-              InputLabelProps={{ shrink: true }}
-              inputProps={{ style: { textAlign: 'left' } }}
-              required
-            />
-          </Grid>
-          <Grid item>
-            {isError && (
-              <Typography color="error" sx={{ mt: 2, fontSize: '0.875rem' }}>
-                Error: {error?.message}
-              </Typography>
-            )}
-            {isSuccess && (
-              <Typography color="success" sx={{ mt: 2, fontSize: '0.875rem' }}>
-                User updated successfully!
-              </Typography>
-            )}
-          </Grid>
-          <Grid item>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              fullWidth
-              disabled={isLoading}
-            >
-              Submit
-            </Button>
-          </Grid>
-        </Grid>
-      </form>
+        </form>
+      )}
     </Box>
   );
 };

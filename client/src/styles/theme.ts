@@ -10,13 +10,13 @@ declare module '@mui/material/styles' {
 }
 
 const theme = createTheme({
-  spacing: 3, // Устанавливаем множитель 3px
+  spacing: 3,
   palette: {
     primary: {
-      main: '#1976d2',
+      main: '#870036',
     },
     secondary: {
-      main: '#dc004e',
+      main: '#FFC5F3',
     },
     background: {
       default: '#f5f5f5',
@@ -52,7 +52,7 @@ const theme = createTheme({
     MuiPaper: {
       styleOverrides: {
         root: {
-          padding: 6, // Это эквивалентно theme.spacing(2), так как spacing: 3
+          padding: 6,
           textAlign: 'center',
           color: '#333',
         },
@@ -61,7 +61,7 @@ const theme = createTheme({
     MuiTextField: {
       styleOverrides: {
         root: {
-          width: '100%', // Sets width to 100% for all TextField components
+          width: '100%',
         },
       },
     },

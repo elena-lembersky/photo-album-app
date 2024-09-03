@@ -49,11 +49,11 @@
   },
   {
     "id": "f1544b8f-1206-45ac-b7aa-83707b474bce",
-    "name": "Nicholas Runolfsdottir",
+    "name": "Nicholas Runolfsdottir1",
     "email": "Sherwood@rosamond.me",
     "albumCount": 0,
     "createdAt": "2024-08-31T19:21:11.805Z",
-    "updatedAt": "2024-09-03T08:04:13.206Z"
+    "updatedAt": "2024-09-03T11:39:26.181Z"
   },
   {
     "id": "373bcd24-3435-449d-a06e-d9c2f5fd9c96",
@@ -70,5 +70,12 @@
     "albumCount": 0,
     "createdAt": "2024-08-31T19:21:11.805Z",
     "updatedAt": "2024-09-02T20:25:22.969Z"
+  },
+  {
+    "id": "aa4ebf0b-b453-44c5-97ef-5706458cddb8",
+    "name": "yii",
+    "email": "syrzbby@gmail.com",
+    "albumCount": 0,
+    "updatedAt": "2024-09-03T11:43:57.959Z"
   }
 ]
