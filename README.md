@@ -8,6 +8,13 @@ Item Management: Create, read, update, and delete items within an album.\
 Cover Image Management: The first photo in an album is automatically set as the cover image. If the first photo is deleted, the next one is set as the cover. If no photos remain, the cover image is set to `null`.\
 Placeholder Images: The API automatically generates placeholder URLs for images using <https://picsum.photos> based on the provided photo ID.
 
+# Screens
+![Screenshot 2024-09-05 at 1 00 48](https://github.com/user-attachments/assets/6863dd25-1c81-410b-ad0f-8d7324c22abc)
+![Screenshot 2024-09-05 at 1 02 09](https://github.com/user-attachments/assets/1833f9c9-262d-4ef5-897e-a59648daf350)
+![Screenshot 2024-09-05 at 1 01 04](https://github.com/user-attachments/assets/2dcf7119-b2c1-4542-a833-24e52eab21d1)
+![Screenshot 2024-09-05 at 1 02 35](https://github.com/user-attachments/assets/228475c4-f18c-4aaa-9d8f-25491043f3cc)
+
+
 # Server
 **Project Structure**\
 Users Module: Manages users and their associated albums.\
@@ -298,12 +305,14 @@ yarn test`
 
 ### **Optimization**
 -   Mongo DB
-    -   Use a CDN to improve performance for static assets.
-    -   Add backend caching (e.g., using `memoizee` for server-side caching).
-    -   Set up a base for managing environment variables.
-    -   Pagination.
-    -   Prefetch images for faster loading.
+-   Use a CDN to improve performance for static assets.
+-   Add backend caching (e.g., using `memoizee` for server-side caching).
+-   Set up a base for managing environment variables.
+-   Pagination.
+-   Prefetch images for faster loading.
 -   Implement photos pagination (upload 10 initially, load more when the user clicks right).
+-   CI/CD
+-   Unit tests
 
 ### **Client**
 -   Add functionality to delete albums when deleting a user.
