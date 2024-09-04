@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Container, Grid, Typography, Paper } from '@mui/material';
 import UserList from 'components/UserList';
-import CreateUserForm from 'components/CreateUserForm';
-import EditUserForm from 'components/EditUserForm';
-import RemoveUserForm from 'components/RemoveUserForm';
+import CreateUserForm from 'components/forms/users/CreateUserForm';
+import EditUserForm from 'components/forms/users/EditUserForm';
+import RemoveUserForm from 'components/forms/users/RemoveUserForm';
 import Modal from 'components/Modal';
 import type { User } from 'types/users.types';
 
@@ -12,16 +12,9 @@ const UserManager = () => {
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [removingUser, setRemovingUser] = useState<User | null>(null);
 
-  const handleCreate = () => {
-    setCreatingUser(true);
-  };
-  const handleEdit = (user: User) => {
-    setEditingUser(user);
-  };
-
-  const handleDelete = (user: User) => {
-    setRemovingUser(user);
-  };
+  const handleCreate = () => setCreatingUser(true);
+  const handleEdit = (user: User) => setEditingUser(user);
+  const handleDelete = (user: User) => setRemovingUser(user);
 
   const handleClose = () => {
     setEditingUser(null);
@@ -31,9 +24,6 @@ const UserManager = () => {
 
   return (
     <Container>
-      <Typography variant="h1" gutterBottom sx={{ p: 10 }}>
-        User Manager
-      </Typography>
       <Grid container spacing={4} sx={{ mb: 30 }}>
         <Paper sx={{ padding: 2, minWidth: '400px' }}>
           <Typography variant="h6" align="left" sx={{ p: 5 }}>
@@ -44,19 +34,15 @@ const UserManager = () => {
             onEditUser={handleEdit}
             onDeleteUser={handleDelete}
           />
-          {editingUser && (
-            <Modal open={true} onClose={handleClose} title="Update User">
-              <EditUserForm user={editingUser} />
-            </Modal>
-          )}
-          {removingUser && (
-            <Modal open={true} onClose={handleClose} title="Remove User">
-              <RemoveUserForm user={removingUser} />
-            </Modal>
-          )}
-          {creatingUser && (
-            <Modal open={true} onClose={handleClose} title="Create User">
-              <CreateUserForm />
+          {(editingUser || removingUser || creatingUser) && (
+            <Modal
+              open={true}
+              onClose={handleClose}
+              title={`${creatingUser ? 'Create' : editingUser ? 'Update' : 'Remove'} User`}
+            >
+              {creatingUser && <CreateUserForm />}
+              {editingUser && <EditUserForm user={editingUser} />}
+              {removingUser && <RemoveUserForm user={removingUser} />}
             </Modal>
           )}
         </Paper>

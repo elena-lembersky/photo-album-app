@@ -20,9 +20,7 @@ const AlbumsList = ({ albums = [] }: AlbumsListProps) => {
     setOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleClose = () => setOpen(false);
 
   const { data: albumPhotos = [], refetch } = useItems(activeAlbum?.id);
 

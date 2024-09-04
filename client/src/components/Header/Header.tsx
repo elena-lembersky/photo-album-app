@@ -24,20 +24,24 @@ const Header = ({ title, onButtonClick }: HeaderProps) => {
     <AppBar position="static">
       <Container>
         <Toolbar>
-          <Box sx={{ flexGrow: 1 }}>
-            <Logo
-              onClick={() => {
-                navigate('/');
-              }}
-              title="Elementor"
-            />
-            <Typography variant="h6" component="div">
-              {title}
-            </Typography>
-          </Box>
-          <Button color="inherit" onClick={handleButtonClick}>
-            My Cabinet
-          </Button>
+          {[...Array(1)].map((_, index) => (
+            <React.Fragment key={index}>
+              <Box sx={{ flexGrow: 1 }}>
+                <Logo
+                  onClick={() => {
+                    navigate('/');
+                  }}
+                  title="Elementor"
+                />
+                <Typography variant="h6" component="div">
+                  {title}
+                </Typography>
+              </Box>
+              <Button color="inherit" onClick={handleButtonClick}>
+                My Cabinet
+              </Button>
+            </React.Fragment>
+          ))}
         </Toolbar>
       </Container>
     </AppBar>

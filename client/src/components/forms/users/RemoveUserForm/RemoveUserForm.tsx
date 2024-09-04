@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Typography, Box, Grid } from '@mui/material';
 import { User } from 'types/users.types';
-import { useDeleteUser, useEditUser } from 'api/usersApi';
+import { useDeleteUser } from 'api/usersApi';
 
 interface RemoveUserFormProps {
   user: User;
