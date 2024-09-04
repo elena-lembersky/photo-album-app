@@ -6,24 +6,6 @@
     "title": "Beautiful Landscape"
   },
   {
-    "id": "2",
-    "albumId": "1",
-    "url": "https://picsum.photos/id/2/600/800",
-    "title": "City at Night 5"
-  },
-  {
-    "id": "3",
-    "albumId": "2",
-    "url": "https://picsum.photos/id/3/600/800",
-    "title": "Mountain View"
-  },
-  {
-    "id": "4",
-    "albumId": "2",
-    "url": "https://picsum.photos/id/4/600/800",
-    "title": "Calm Ocean"
-  },
-  {
     "id": "5",
     "albumId": "3",
     "url": "https://picsum.photos/id/5/600/800",
@@ -112,5 +94,82 @@
     "albumId": "4f761290-fbd7-4fd8-bfce-0f473e1518fa",
     "url": "https://picsum.photos/id/7/600/800",
     "title": "RRRR"
+  },
+  {
+    "id": "ab8c709c-c2c2-49c9-b5f1-2ecd829b6749",
+    "albumId": "1",
+    "url": "https://picsum.photos/id/6/600/800"
+  },
+  {
+    "id": "47195fa5-f372-4300-9ed3-f2954cdbbb56",
+    "albumId": "e818d293-73b9-4c32-92a8-59ec12375337",
+    "url": "https://picsum.photos/id/90/600/800",
+    "title": "My new Photo"
+  },
+  {
+    "id": "67f59774-40a4-43c1-921a-f003faaa2bb0",
+    "albumId": "2c91e089-4076-4554-a9f0-46506dd2780d",
+    "url": "https://picsum.photos/id/888/600/800",
+    "title": "My summer"
+  },
+  {
+    "id": "00d9a527-db66-4f5d-b314-4d8a5b06cc1a",
+    "albumId": "2c91e089-4076-4554-a9f0-46506dd2780d",
+    "url": "https://picsum.photos/id/900/600/800",
+    "title": "Night"
+  },
+  {
+    "id": "d821303c-a918-4a73-b260-ae19e1b6a1df",
+    "albumId": "4f761290-fbd7-4fd8-bfce-0f473e1518fa",
+    "url": "https://picsum.photos/id/55/600/800",
+    "title": "Winter my"
+  },
+  {
+    "id": "4044a12d-7639-4807-a906-8b83442de6a7",
+    "albumId": "2c91e089-4076-4554-a9f0-46506dd2780d",
+    "url": "https://picsum.photos/id/67/600/800",
+    "title": "Trees"
+  },
+  {
+    "id": "cb488999-2cad-4316-91b6-77de2fd0d842",
+    "albumId": "b62f13d8-62a0-4596-9952-fdc731c0752c",
+    "url": "https://picsum.photos/id/76/600/800"
+  },
+  {
+    "id": "f0a843d1-9f2f-45bd-a84e-b81e3d0f013a",
+    "albumId": "b62f13d8-62a0-4596-9952-fdc731c0752c",
+    "url": "https://picsum.photos/id/89/600/800",
+    "title": "I am"
+  },
+  {
+    "id": "06f5d880-25be-4462-9548-5c90f44993c6",
+    "albumId": "b62f13d8-62a0-4596-9952-fdc731c0752c",
+    "url": "https://picsum.photos/id/77/600/800"
+  },
+  {
+    "id": "916d5481-b730-4018-9c84-218aaa5e3013",
+    "albumId": "2",
+    "url": "https://picsum.photos/id/210/600/800"
+  },
+  {
+    "id": "bcf5f953-958a-4065-b158-5382f56b28e6",
+    "albumId": "2",
+    "url": "https://picsum.photos/id/38/600/800",
+    "title": "Best Home"
+  },
+  {
+    "id": "d778046e-ef08-4f5a-992f-33da9d6fde1f",
+    "albumId": "ff246675-ac3a-414a-8d8d-16b496f0c2ae",
+    "url": "https://picsum.photos/id/61/600/800"
+  },
+  {
+    "id": "36dc5aee-5275-4293-b5fa-11177f9d3f19",
+    "albumId": "ff246675-ac3a-414a-8d8d-16b496f0c2ae",
+    "url": "https://picsum.photos/id/62/600/800"
+  },
+  {
+    "id": "a48d957e-0822-48ea-8f5e-a38ba56c443f",
+    "albumId": "ff246675-ac3a-414a-8d8d-16b496f0c2ae",
+    "url": "https://picsum.photos/id/63/600/800"
   }
 ]

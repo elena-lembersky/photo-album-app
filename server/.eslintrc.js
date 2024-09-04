@@ -21,5 +21,18 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+
+    // Rules for unused-imports plugin
+    'unused-imports/no-unused-imports': 'error', // Reports when an import is not used
+    'unused-imports/no-unused-vars': [
+      // Extends the base eslint no-unused-vars rule
+      'warn',
+      {
+        vars: 'all',
+        varsIgnorePattern: '^_',
+        args: 'after-used',
+        argsIgnorePattern: '^_',
+      },
+    ],
   },
 };

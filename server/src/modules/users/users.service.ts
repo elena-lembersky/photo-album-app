@@ -1,88 +1,89 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import * as fs from 'fs';
-import * as path from 'path';
-import { v4 as uuidv4 } from 'uuid';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import {
+  Injectable,
+  Inject,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
+import { IStorage } from 'common/interfaces/i-storage.interface';
+import { CreateUserDto, UpdateUserDto } from './dto';
 import { User } from './users.interface';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class UsersService {
-  private readonly dataPath = path.resolve(
-    __dirname,
-    '../../../data/users.json',
-  );
+  constructor(@Inject('IStorage') private storage: IStorage) {}
 
+  private readonly filePath = '../../../data/users.json';
+
+  // Fetch all users
   async findAll(): Promise<User[]> {
-    try {
-      const data = await fs.promises.readFile(this.dataPath, 'utf8');
-      return JSON.parse(data) as User[];
-    } catch (error) {
-      throw new Error('Failed to read users data');
-    }
+    return await this.storage.read<User[]>(this.filePath);
   }
 
+  // Fetch a specific user by ID
   async findOne(id: string): Promise<User> {
     const users = await this.findAll();
     const user = users.find((user) => user.id === id);
-    if (!user) {
-      throw new NotFoundException(`User with id: ${id} not found`);
-    }
+    if (!user) throw new NotFoundException(`User with ID: ${id} not found`);
     return user;
   }
 
-  async create(createUserDto: Partial<CreateUserDto>): Promise<User> {
+  // Create a new user
+  async create(createUserDto: CreateUserDto): Promise<User> {
     const users = await this.findAll();
     const newUser: User = {
       id: uuidv4(),
-      name: createUserDto.name,
-      email: createUserDto.email,
-      albumCount: createUserDto.albumCount ?? 0,
-      createdAt: createUserDto.createdAt,
-      updatedAt: createUserDto.updatedAt,
+      ...createUserDto,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     };
+
     users.push(newUser);
-    await this.saveUsers(users);
+    await this.storage.write(this.filePath, users);
     return newUser;
   }
 
-  async update(
-    id: string,
-    updateUserDto: Partial<UpdateUserDto>,
-  ): Promise<User> {
+  // Update an existing user
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     const users = await this.findAll();
     const userIndex = users.findIndex((user) => user.id === id);
+
     if (userIndex === -1) {
-      throw new NotFoundException(`User with id: ${id} not found`);
+      throw new NotFoundException(`User with ID: ${id} not found`);
     }
+
+    const existingUser = users[userIndex];
+
+    // Compare the existing user data with the new data to check if changes are made
+    const isDataChanged = Object.keys(updateUserDto).some(
+      (key) => (existingUser as any)[key] !== (updateUserDto as any)[key],
+    );
+
+    if (!isDataChanged) {
+      throw new BadRequestException('No changes detected in user data');
+    }
+
     const updatedUser = {
-      ...users[userIndex],
+      ...existingUser,
       ...updateUserDto,
-      updatedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(), // update `updatedAt` timestamp
     };
+
     users[userIndex] = updatedUser;
-    await this.saveUsers(users);
+    await this.storage.write(this.filePath, users);
     return updatedUser;
   }
 
+  // Remove a user by ID
   async remove(id: string): Promise<void> {
     const users = await this.findAll();
     const userIndex = users.findIndex((user) => user.id === id);
-    if (userIndex === -1) {
-      throw new NotFoundException('User not found');
-    }
-    const updatedUsers = users.filter((user) => user.id !== id);
-    await this.saveUsers(updatedUsers);
-  }
 
-  private async saveUsers(users: User[]): Promise<void> {
-    try {
-      await fs.promises.writeFile(
-        this.dataPath,
-        JSON.stringify(users, null, 2),
-      );
-    } catch (error) {
-      throw new Error('Failed to save users data');
+    if (userIndex === -1) {
+      throw new NotFoundException(`User with ID: ${id} not found`);
     }
+
+    const updatedUsers = users.filter((user) => user.id !== id);
+    await this.storage.write(this.filePath, updatedUsers);
   }
 }

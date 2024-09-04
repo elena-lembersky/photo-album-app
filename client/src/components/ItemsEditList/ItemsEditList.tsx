@@ -1,25 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
-  List,
-  ListItem,
-  ListItemText,
-  IconButton,
-  Box,
-  Divider,
   Grid,
+  Card,
+  CardMedia,
+  CardContent,
+  CardActions,
+  IconButton,
   Typography,
 } from '@mui/material';
 import { Edit, Delete, Add } from '@mui/icons-material';
-import { useAlbums } from 'api/albumsApi';
-import { Album } from 'types/albums.types';
 import { Item } from 'types/items.types';
-import { useItems } from 'api/itemsApi';
 
 interface ItemsEditListProps {
   onCreateItem: () => void;
   onEditItem: (item: Item) => void;
   onDeleteItem: (item: Item) => void;
   items: Array<Item>;
+  displayTitle?: boolean;
 }
 
 const ItemsEditList: React.FC<ItemsEditListProps> = ({
@@ -27,59 +24,68 @@ const ItemsEditList: React.FC<ItemsEditListProps> = ({
   onDeleteItem,
   onCreateItem,
   items,
+  displayTitle = false,
 }) => {
-  useEffect(() => {
-    console.log({ items });
-  }, []);
-
   return (
-    <Box>
-      <List>
-        {items?.map((item, index) => (
-          <React.Fragment key={item.id}>
-            <ListItem>
-              <img src={item.url} alt={`Thumbnail ${index}`} width={100} />
-              <Typography component="p" gutterBottom>
-                {item.title}
-              </Typography>
-              <IconButton
-                edge="end"
-                aria-label="edit"
-                onClick={() => onEditItem(item)}
-              >
+    <Grid container spacing={2}>
+      {items.map((item) => (
+        <Grid item key={item.id} xs={12} sm={6} md={4}>
+          <Card
+            sx={{
+              position: 'relative',
+            }}
+          >
+            <CardMedia
+              component="img"
+              height="140"
+              image={item.url}
+              alt={`Thumbnail ${item.title}`}
+            />
+            {displayTitle && (
+              <CardContent sx={{ textAlign: 'center' }}>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ minHeight: '20px' }}
+                >
+                  {item.title || ' '}
+                </Typography>
+              </CardContent>
+            )}
+            <CardActions
+              sx={{
+                position: 'absolute',
+                top: 6,
+                right: 6,
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                color: 'white',
+                display: 'flex',
+              }}
+            >
+              <IconButton onClick={() => onEditItem(item)} color="inherit">
                 <Edit />
               </IconButton>
-              <IconButton
-                edge="end"
-                aria-label="delete"
-                onClick={() => onDeleteItem(item)}
-              >
+              <IconButton onClick={() => onDeleteItem(item)} color="inherit">
                 <Delete />
               </IconButton>
-            </ListItem>
-            <Divider />
-          </React.Fragment>
-        ))}
-      </List>
-      <Box sx={{ textAlign: 'right', p: 5 }}>
+            </CardActions>
+          </Card>
+        </Grid>
+      ))}
+      <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
         <IconButton
-          edge="end"
-          aria-label="add"
           onClick={onCreateItem}
           sx={{
-            backgroundColor: 'black',
-            color: 'white',
-            right: 5,
+            color: 'primary.main',
             '&:hover': {
-              color: 'black',
-              backgroundColor: 'white',
+              color: 'primary.dark',
             },
           }}
         >
           <Add />
         </IconButton>
-      </Box>
-    </Box>
+      </Grid>
+    </Grid>
   );
 };
 

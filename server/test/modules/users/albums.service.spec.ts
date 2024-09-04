@@ -1,17 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AlbumsService } from '@modules/albums/albums.service';
 import { UsersService } from '@modules/users/users.service';
-import * as fs from 'fs/promises';
-import { jest } from '@jest/globals';
 import { CreateAlbumDto, UpdateAlbumDto } from '@modules/albums/dto';
-import { Album } from '@modules/albums/albums.interface';
 import { NotFoundException } from '@nestjs/common';
+import { IStorage } from 'common/interfaces/i-storage.interface';
 
 describe('AlbumsService', () => {
   let albumsService: AlbumsService;
   let usersService: UsersService;
+  let storage: IStorage;
 
-  const mockAlbums: Album[] = [
+  const mockAlbums = [
     {
       id: '1',
       userId: '101',
@@ -26,17 +25,25 @@ describe('AlbumsService', () => {
     },
   ];
 
-  // @ts-ignore
-  const mockFindOne = jest.fn().mockResolvedValue({
+  const mockUser = {
     id: '101',
     name: 'John Doe',
     email: 'johndoe@example.com',
     albumCount: 1,
-  });
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
 
   const mockUsersService = {
-    findOne: mockFindOne,
+    findOne: jest.fn(() => Promise.resolve(mockUser)), // Правильная типизация мока
     update: jest.fn(),
+  };
+
+  const mockStorage = {
+    read: jest.fn().mockResolvedValue(mockAlbums),
+    write: jest.fn().mockResolvedValue(undefined),
+    update: jest.fn().mockResolvedValue(true),
+    delete: jest.fn().mockResolvedValue(true),
   };
 
   beforeEach(async () => {
@@ -47,17 +54,16 @@ describe('AlbumsService', () => {
           provide: UsersService,
           useValue: mockUsersService,
         },
+        {
+          provide: 'IStorage',
+          useValue: mockStorage,
+        },
       ],
     }).compile();
 
     albumsService = module.get<AlbumsService>(AlbumsService);
     usersService = module.get<UsersService>(UsersService);
-
-    jest.spyOn(fs, 'readFile').mockResolvedValue(JSON.stringify(mockAlbums));
-    jest.spyOn(fs, 'writeFile').mockResolvedValue(undefined);
-    jest
-      .spyOn(global.Date, 'now')
-      .mockReturnValue(new Date('2024-08-29T12:38:55.750Z').getTime());
+    storage = module.get<IStorage>('IStorage');
   });
 
   afterEach(() => {
@@ -66,6 +72,7 @@ describe('AlbumsService', () => {
 
   it('should return all albums', async () => {
     const albums = await albumsService.findAll();
+    expect(storage.read).toHaveBeenCalledWith(expect.any(String));
     expect(albums).toEqual(mockAlbums);
   });
 
@@ -98,6 +105,10 @@ describe('AlbumsService', () => {
     expect(usersService.update).toHaveBeenCalledWith('101', {
       albumCount: 2,
     });
+    expect(storage.write).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.any(Array),
+    );
   });
 
   it('should update an existing album', async () => {
@@ -106,6 +117,10 @@ describe('AlbumsService', () => {
     };
     const updatedAlbum = await albumsService.update('1', updateAlbumDto);
     expect(updatedAlbum.title).toBe(updateAlbumDto.title);
+    expect(storage.write).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.any(Array),
+    );
   });
 
   it('should throw an error when trying to update a non-existent album', async () => {
@@ -119,14 +134,13 @@ describe('AlbumsService', () => {
 
   it('should remove an album and update user album count', async () => {
     await albumsService.remove('1');
-    const remainingAlbums = mockAlbums.filter((album) => album.id !== '1');
-    expect(fs.writeFile).toHaveBeenCalledWith(
-      expect.any(String),
-      JSON.stringify(remainingAlbums, null, 2),
-    );
     expect(usersService.update).toHaveBeenCalledWith('101', {
-      albumCount: 1,
+      albumCount: 0,
     });
+    expect(storage.write).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.any(Array),
+    );
   });
 
   it('should throw an error when trying to remove a non-existent album', async () => {

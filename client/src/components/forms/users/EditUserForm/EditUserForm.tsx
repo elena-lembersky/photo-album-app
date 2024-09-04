@@ -17,7 +17,7 @@ const EditUserForm: React.FC<EditUserFormProps> = ({ user }) => {
   const isSuccess = status === 'success';
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // Prevent the form from causing a page reload
+    event.preventDefault();
     updateUser(
       { id: user.id, name, email },
       {

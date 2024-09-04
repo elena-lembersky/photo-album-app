@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ItemsService } from '@modules/items/items.service';
 import { AlbumsService } from '@modules/albums/albums.service';
-import * as fs from 'fs/promises';
 import { NotFoundException } from '@nestjs/common';
 import { Item } from '@modules/items/item.interface';
 import { CreateItemDto, UpdateItemDto } from '@modules/items/dto';
+import { IStorage } from 'common/interfaces/i-storage.interface';
 
 jest.mock('uuid', () => ({
   v4: jest.fn().mockReturnValue('4'),
@@ -13,6 +13,7 @@ jest.mock('uuid', () => ({
 describe('ItemsService', () => {
   let itemsService: ItemsService;
   let albumsService: AlbumsService;
+  let storage: IStorage;
 
   const mockItems: Item[] = [
     {
@@ -42,6 +43,13 @@ describe('ItemsService', () => {
     coverImage: null,
   });
 
+  const mockStorage: Partial<IStorage> = {
+    read: jest.fn().mockResolvedValue(mockItems), // Properly typed mock
+    write: jest.fn().mockResolvedValue(undefined),
+    update: jest.fn(),
+    delete: jest.fn(),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -53,14 +61,16 @@ describe('ItemsService', () => {
             update: jest.fn(),
           },
         },
+        {
+          provide: 'IStorage',
+          useValue: mockStorage,
+        },
       ],
     }).compile();
 
     itemsService = module.get<ItemsService>(ItemsService);
     albumsService = module.get<AlbumsService>(AlbumsService);
-
-    jest.spyOn(fs, 'readFile').mockResolvedValue(JSON.stringify(mockItems));
-    jest.spyOn(fs, 'writeFile').mockResolvedValue(undefined);
+    storage = module.get<IStorage>('IStorage');
   });
 
   afterEach(() => {
@@ -69,6 +79,7 @@ describe('ItemsService', () => {
 
   it('should return all items', async () => {
     const items = await itemsService.findAll();
+    expect(storage.read).toHaveBeenCalledWith(expect.any(String));
     expect(items).toEqual(mockItems);
   });
 
@@ -88,7 +99,7 @@ describe('ItemsService', () => {
     );
   });
 
-  it('should create a new item', async () => {
+  it('should create a new item and update album coverImage', async () => {
     const newItemDto: CreateItemDto = {
       title: 'New Photo',
       imageId: '4',
@@ -99,7 +110,12 @@ describe('ItemsService', () => {
     expect(newItem.albumId).toBe('101');
     expect(newItem.url).toBe('https://picsum.photos/id/4/600/800');
     expect(newItem.title).toBe(newItemDto.title);
-    expect(fs.writeFile).toHaveBeenCalled();
+    expect(storage.write).toHaveBeenCalled();
+
+    // Verify album coverImage is updated to the new item's URL
+    expect(albumsService.update).toHaveBeenCalledWith('101', {
+      coverImage: 'https://picsum.photos/id/4/600/800',
+    });
   });
 
   it('should update an existing item', async () => {
@@ -110,7 +126,7 @@ describe('ItemsService', () => {
     const updatedItem = await itemsService.update('1', updateItemDto);
 
     expect(updatedItem.title).toBe('Updated Photo');
-    expect(fs.writeFile).toHaveBeenCalled();
+    expect(storage.write).toHaveBeenCalled();
   });
 
   it('should throw an error when updating a non-existent item', async () => {
@@ -123,9 +139,35 @@ describe('ItemsService', () => {
     );
   });
 
-  it('should remove an item', async () => {
+  it('should remove an item and update album coverImage', async () => {
+    // Make sure there's more than one item in the album initially
+    const albumId = '101';
+    jest
+      .spyOn(itemsService, 'findByAlbumId')
+      .mockResolvedValueOnce([mockItems[0], mockItems[1]]);
+
     await itemsService.remove('1');
-    expect(fs.writeFile).toHaveBeenCalled();
+    expect(storage.write).toHaveBeenCalled();
+
+    // Verify album coverImage is updated when the first item is deleted
+    expect(albumsService.update).toHaveBeenCalledWith(albumId, {
+      coverImage: mockItems[1].url, // The next item's URL becomes the coverImage
+    });
+  });
+
+  it('should remove the coverImage if the last item is deleted', async () => {
+    const albumId = '102';
+
+    jest
+      .spyOn(itemsService, 'findByAlbumId')
+      .mockResolvedValueOnce([mockItems[2]]);
+
+    await itemsService.remove('3');
+    expect(storage.write).toHaveBeenCalled();
+
+    expect(albumsService.update).toHaveBeenCalledWith(albumId, {
+      coverImage: null, // Should set coverImage to null
+    });
   });
 
   it('should throw an error when removing a non-existent item', async () => {

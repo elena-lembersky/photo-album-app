@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Grid, Typography, Paper } from '@mui/material';
-import UserList from 'components/UserList';
+import UserList from 'components/UserEditList';
 import CreateUserForm from 'components/forms/users/CreateUserForm';
 import EditUserForm from 'components/forms/users/EditUserForm';
 import RemoveUserForm from 'components/forms/users/RemoveUserForm';
@@ -23,12 +23,9 @@ const UserManager = () => {
   };
 
   return (
-    <Container>
+    <Container sx={{ mt: 8, maxWidth: '90%' }}>
       <Grid container spacing={4} sx={{ mb: 30 }}>
-        <Paper sx={{ padding: 2, minWidth: '400px' }}>
-          <Typography variant="h6" align="left" sx={{ p: 5 }}>
-            All Users:
-          </Typography>
+        <Paper sx={{ padding: 2, minWidth: '600px', width: '100%' }}>
           <UserList
             onCreateUser={handleCreate}
             onEditUser={handleEdit}

@@ -1,111 +1,79 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import * as fs from 'fs';
-import * as path from 'path';
-import { v4 as uuidv4 } from 'uuid';
-import { CreateAlbumDto } from './dto/create-album.dto';
-import { UpdateAlbumDto } from './dto/update-album.dto';
-import { UsersService } from '../users/users.service';
-import type { User } from '../users/users.interface';
+// src/modules/albums/albums.service.ts
+import { Injectable, NotFoundException, Inject } from '@nestjs/common';
+import { IStorage } from 'common/interfaces/i-storage.interface';
+import { CreateAlbumDto, UpdateAlbumDto } from './dto';
 import { Album } from './albums.interface';
+import { UsersService } from '@modules/users/users.service';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class AlbumsService {
-  private readonly dataPath = path.resolve(
-    __dirname,
-    '../../../data/albums.json',
-  );
+  constructor(
+    @Inject('IStorage') private storage: IStorage,
+    private readonly usersService: UsersService,
+  ) {}
 
-  constructor(private readonly usersService: UsersService) {}
+  private readonly filePath = '../../../data/albums.json';
 
   async findAll(): Promise<Album[]> {
-    try {
-      const data = await fs.promises.readFile(this.dataPath, 'utf8');
-      return JSON.parse(data);
-    } catch (error) {
-      throw new Error('Failed to read albums data');
-    }
+    return await this.storage.read<Album[]>(this.filePath);
   }
 
-  async getUserByID(userId: string): Promise<User> {
-    const user = await this.usersService.findOne(userId);
-    if (!user) {
-      throw new NotFoundException(`User with ID ${userId} not found`);
-    }
-    return user;
+  async findOne(id: string): Promise<Album> {
+    const albums = await this.findAll();
+    const album = albums.find((album) => album.id === id);
+    if (!album) throw new NotFoundException(`Album with id: ${id} not found`);
+    return album;
   }
 
   async findByUserId(userId: string): Promise<Album[]> {
-    //TODO add validation userId
     const albums = await this.findAll();
     return albums.filter((album) => album.userId === userId);
   }
 
-  async findOne(albumId: string): Promise<Album> {
-    const albums = await this.findAll();
-    const album = albums.find((album) => album.id === albumId);
-    if (!album) {
-      throw new NotFoundException(`Album with ID ${albumId} not found`);
-    }
-    return album;
-  }
-
   async create(userId: string, createAlbumDto: CreateAlbumDto): Promise<Album> {
     const albums = await this.findAll();
-    const user = await this.getUserByID(userId);
     const newAlbum: Album = {
       id: uuidv4(),
-      userId: user.id,
-      title: createAlbumDto.title,
+      userId,
+      ...createAlbumDto,
       coverImage: null,
     };
     albums.push(newAlbum);
-    await this.saveAlbums(albums);
-    await this.updateUserAlbumCount(userId, 1);
+    await this.storage.write(this.filePath, albums);
+
+    // Update user's album count
+    const user = await this.usersService.findOne(userId);
+    await this.usersService.update(userId, {
+      albumCount: user.albumCount + 1, // Increment album count
+    });
+
     return newAlbum;
   }
 
-  async update(
-    albumId: string,
-    updateAlbumDto: UpdateAlbumDto,
-  ): Promise<Album> {
-    //TODO use findOne after moving to DB
+  async update(id: string, updateAlbumDto: UpdateAlbumDto): Promise<Album> {
     const albums = await this.findAll();
-    const albumIndex = albums.findIndex((album) => album.id === albumId);
-
-    if (albumIndex === -1) {
-      throw new NotFoundException(`Album with ID ${albumId} not found`);
-    }
-
-    const updatedAlbum = {
-      ...albums[albumIndex],
-      ...updateAlbumDto,
-    };
+    const albumIndex = albums.findIndex((album) => album.id === id);
+    if (albumIndex === -1)
+      throw new NotFoundException(`Album with id: ${id} not found`);
+    const updatedAlbum = { ...albums[albumIndex], ...updateAlbumDto };
     albums[albumIndex] = updatedAlbum;
-    await this.saveAlbums(albums);
+    await this.storage.write(this.filePath, albums);
     return updatedAlbum;
   }
 
-  async remove(albumId: string): Promise<void> {
+  async remove(id: string): Promise<void> {
     const albums = await this.findAll();
-    const albumIndex = albums.findIndex((album) => album.id === albumId);
-    if (albumIndex === -1) {
-      throw new NotFoundException(`Album with ID ${albumId} not found`);
-    }
-    const [removedAlbum] = albums.splice(albumIndex, 1);
-    await this.saveAlbums(albums);
-    await this.updateUserAlbumCount(removedAlbum.userId, -1);
-  }
+    const album = albums.find((album) => album.id === id);
+    if (!album) throw new NotFoundException(`Album with id: ${id} not found`);
 
-  private async saveAlbums(albums: Album[]): Promise<void> {
-    await fs.promises.writeFile(this.dataPath, JSON.stringify(albums, null, 2));
-  }
+    const updatedAlbums = albums.filter((album) => album.id !== id);
+    await this.storage.write(this.filePath, updatedAlbums);
 
-  private async updateUserAlbumCount(
-    userId: string,
-    delta: number,
-  ): Promise<void> {
-    const user = await this.getUserByID(userId);
-    user.albumCount = (user.albumCount || 0) + delta;
-    await this.usersService.update(userId, { albumCount: user.albumCount });
+    // Update user's album count
+    const user = await this.usersService.findOne(album.userId);
+    await this.usersService.update(album.userId, {
+      albumCount: user.albumCount - 1, // Decrement album count
+    });
   }
 }

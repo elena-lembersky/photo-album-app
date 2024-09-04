@@ -1,4 +1,6 @@
 import React from 'react';
+import { useTheme } from '@mui/material/styles';
+import { stringAvatar } from 'utils/avatarHelpers';
 import {
   List,
   ListItem,
@@ -9,18 +11,19 @@ import {
   Typography,
 } from '@mui/material';
 import type { UsersListProps } from './UserNav.types';
-import { stringAvatar } from 'utils/avatarHelpers';
 
 const UsersList = ({
   users = [],
   onSelectUser,
   selectedUserId,
 }: UsersListProps) => {
+  const theme = useTheme();
+
   if (users.length === 0) {
     return <Typography variant="body1">No users available</Typography>;
   }
   return (
-    <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+    <List sx={{ width: '100%' }}>
       <Box
         sx={{
           display: 'flex',
@@ -39,14 +42,16 @@ const UsersList = ({
               minWidth: '50px',
               margin: '2px',
               cursor: 'pointer',
-              backgroundColor: user.id === selectedUserId ? '#FFC5F3' : 'black',
-              color: user.id === selectedUserId ? 'black' : '#FFC5F3',
+              backgroundColor:
+                user.id === selectedUserId
+                  ? 'black'
+                  : theme.palette.primary.main,
+              color: theme.palette.secondary.main,
               minHeight: '50px',
               width: 'calc(25% - 4px)',
               transition: 'background-color 0.3s ease',
               '&:hover': {
-                backgroundColor: '#FFC5F3',
-                color: 'black',
+                backgroundColor: 'black',
               },
             }}
           >
@@ -54,7 +59,17 @@ const UsersList = ({
               <Avatar {...stringAvatar(`${user?.name}`)} />
             </ListItemAvatar>
             <ListItemText
-              primary={`${user?.name}:  ${user?.albumCount} albums`}
+              primary={
+                <>
+                  {user?.name}:
+                  <br />
+                  <small>
+                    {user?.albumCount
+                      ? `${user?.albumCount} albums`
+                      : 'no albums yet'}
+                  </small>
+                </>
+              }
             />
           </ListItem>
         ))}
