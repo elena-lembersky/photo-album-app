@@ -25,7 +25,8 @@
       "@utils/*": ["utils/*"],
       "@types/*": ["types/*"],
       "@constants/*": ["constants/*"],
-      "@api/*": ["constants/*"]
+      "@api/*": ["constants/*"],
+      "@styles*": ["styles/*"]
     }
   },
   "include": [

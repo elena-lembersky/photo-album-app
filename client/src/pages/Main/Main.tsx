@@ -19,7 +19,7 @@ const MainPage = () => {
     data: albums = [],
     error: albumsError,
     isLoading: albumsLoading,
-  } = useAlbums(selectedUser?.id);
+  } = useAlbums(selectedUser?.id || '');
 
   useEffect(() => {
     if (users.length > 0 && !selectedUser) {

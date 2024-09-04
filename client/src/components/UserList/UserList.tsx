@@ -1,5 +1,12 @@
 import React from 'react';
-import { List, ListItem, ListItemText, IconButton, Box } from '@mui/material';
+import {
+  List,
+  ListItem,
+  ListItemText,
+  IconButton,
+  Box,
+  Divider,
+} from '@mui/material';
 import { Edit, Delete, Add } from '@mui/icons-material';
 import { useUsers } from 'api/usersApi';
 import { User } from 'types/users.types';
@@ -27,35 +34,53 @@ const UserList: React.FC<UserListProps> = ({
   return (
     <Box>
       <List>
-        {users.map((user) => (
-          <ListItem
-            key={user.id}
-            secondaryAction={
-              <>
-                <IconButton
-                  edge="end"
-                  aria-label="edit"
-                  onClick={() => onEditUser(user)}
-                >
-                  <Edit />
-                </IconButton>
-                <IconButton
-                  edge="end"
-                  aria-label="delete"
-                  onClick={() => onDeleteUser(user)}
-                >
-                  <Delete />
-                </IconButton>
-              </>
-            }
-          >
-            <ListItemText primary={user.name} secondary={user.email} />
-          </ListItem>
+        {users?.map((user, index) => (
+          <React.Fragment key={user.id}>
+            <ListItem
+              key={user.id}
+              secondaryAction={
+                <>
+                  <IconButton
+                    edge="end"
+                    aria-label="edit"
+                    onClick={() => onEditUser(user)}
+                  >
+                    <Edit />
+                  </IconButton>
+                  <IconButton
+                    edge="end"
+                    aria-label="delete"
+                    onClick={() => onDeleteUser(user)}
+                  >
+                    <Delete />
+                  </IconButton>
+                </>
+              }
+            >
+              <ListItemText primary={user.name} secondary={user.email} />
+            </ListItem>
+            <Divider />
+          </React.Fragment>
         ))}
       </List>
-      <IconButton edge="end" aria-label="edit" onClick={() => onCreateUser()}>
-        <Add />
-      </IconButton>
+      <Box sx={{ textAlign: 'right', p: 5 }}>
+        <IconButton
+          edge="end"
+          aria-label="add"
+          onClick={onCreateUser}
+          sx={{
+            backgroundColor: 'black',
+            color: 'white',
+            right: 5,
+            '&:hover': {
+              color: 'black',
+              backgroundColor: 'white',
+            },
+          }}
+        >
+          <Add />
+        </IconButton>
+      </Box>
     </Box>
   );
 };

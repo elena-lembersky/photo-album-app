@@ -22,7 +22,7 @@ export class UpdateUserDto {
   email?: string;
 
   @IsOptional()
-  albumCount?: number = 0;
+  albumCount?: number;
 
   @IsOptional()
   updatedAt: string = new Date().toISOString();

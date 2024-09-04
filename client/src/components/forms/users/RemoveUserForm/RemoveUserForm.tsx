@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Typography, Box, Grid } from '@mui/material';
 import { User } from 'types/users.types';
-import { useDeleteUser, useEditUser } from 'api/usersApi';
+import { useDeleteUser } from 'api/usersApi';
 
 interface RemoveUserFormProps {
   user: User;
 }
 
 const RemoveUserForm: React.FC<RemoveUserFormProps> = ({ user }) => {
-  const [id, setUserID] = useState<string>(user.id);
   const { mutate: deleteUser, status, error } = useDeleteUser();
 
   const isLoading = status === 'pending';
@@ -16,8 +15,8 @@ const RemoveUserForm: React.FC<RemoveUserFormProps> = ({ user }) => {
   const isSuccess = status === 'success';
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // Prevent the form from causing a page reload
-    deleteUser(id);
+    event.preventDefault();
+    deleteUser(user.id);
   };
 
   return (
@@ -30,7 +29,7 @@ const RemoveUserForm: React.FC<RemoveUserFormProps> = ({ user }) => {
             {!isSuccess && (
               <>
                 <Grid item>
-                  <Typography variant="h6" gutterBottom>
+                  <Typography component="p" gutterBottom>
                     Are you sure you want to remove the user: {user?.name}?
                   </Typography>
                 </Grid>

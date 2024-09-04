@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 import type { UsersListProps } from './UserNav.types';
-import { stringAvatar } from '../../utils/avatarHelpers';
+import { stringAvatar } from 'utils/avatarHelpers';
 
 const UsersList = ({
   users = [],
