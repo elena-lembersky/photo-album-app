@@ -1,11 +1,5 @@
 [
   {
-    "id": "1",
-    "albumId": "1",
-    "url": "https://picsum.photos/id/1/600/800",
-    "title": "Beautiful Landscape"
-  },
-  {
     "id": "5",
     "albumId": "3",
     "url": "https://picsum.photos/id/5/600/800",
@@ -107,28 +101,10 @@
     "title": "My new Photo"
   },
   {
-    "id": "67f59774-40a4-43c1-921a-f003faaa2bb0",
-    "albumId": "2c91e089-4076-4554-a9f0-46506dd2780d",
-    "url": "https://picsum.photos/id/888/600/800",
-    "title": "My summer"
-  },
-  {
-    "id": "00d9a527-db66-4f5d-b314-4d8a5b06cc1a",
-    "albumId": "2c91e089-4076-4554-a9f0-46506dd2780d",
-    "url": "https://picsum.photos/id/900/600/800",
-    "title": "Night"
-  },
-  {
     "id": "d821303c-a918-4a73-b260-ae19e1b6a1df",
     "albumId": "4f761290-fbd7-4fd8-bfce-0f473e1518fa",
     "url": "https://picsum.photos/id/55/600/800",
     "title": "Winter my"
-  },
-  {
-    "id": "4044a12d-7639-4807-a906-8b83442de6a7",
-    "albumId": "2c91e089-4076-4554-a9f0-46506dd2780d",
-    "url": "https://picsum.photos/id/67/600/800",
-    "title": "Trees"
   },
   {
     "id": "cb488999-2cad-4316-91b6-77de2fd0d842",
@@ -171,5 +147,45 @@
     "id": "a48d957e-0822-48ea-8f5e-a38ba56c443f",
     "albumId": "ff246675-ac3a-414a-8d8d-16b496f0c2ae",
     "url": "https://picsum.photos/id/63/600/800"
+  },
+  {
+    "id": "40494f7c-6d85-4434-885c-bb362b8ab3bc",
+    "albumId": "f6ee313c-ea69-4dcc-8cf8-72b4a9fffbbc",
+    "url": "https://picsum.photos/id/88/600/800"
+  },
+  {
+    "id": "52de3203-b874-408c-a346-52dccc2cd88f",
+    "albumId": "f6ee313c-ea69-4dcc-8cf8-72b4a9fffbbc",
+    "url": "https://picsum.photos/id/700/600/800"
+  },
+  {
+    "id": "de7f634e-e11b-4d50-884c-e0976fc80882",
+    "albumId": "1",
+    "url": "https://picsum.photos/id/99/600/800"
+  },
+  {
+    "id": "c59668f7-65a2-4eb2-bd4c-225355dd8a1e",
+    "albumId": "1",
+    "url": "https://picsum.photos/id/888/600/800"
+  },
+  {
+    "id": "2f2eab1d-0577-44b3-879e-e6085584c6e2",
+    "albumId": "1",
+    "url": "https://picsum.photos/id/677/600/800"
+  },
+  {
+    "id": "4fbfcfa8-8cfb-43b0-99fc-e35dc9349842",
+    "albumId": "1",
+    "url": "https://picsum.photos/id/543/600/800"
+  },
+  {
+    "id": "bfb03a03-a081-4968-be27-95692505ea04",
+    "albumId": "1",
+    "url": "https://picsum.photos/id/45/600/800"
+  },
+  {
+    "id": "925c1810-74a3-4696-9513-f65576526350",
+    "albumId": "1",
+    "url": "https://picsum.photos/id/78/600/800"
   }
 ]

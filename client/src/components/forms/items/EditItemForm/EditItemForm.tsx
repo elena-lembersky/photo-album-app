@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, Box, Typography, Grid } from '@mui/material';
+import { TextField, Button, Box, Typography } from '@mui/material';
 import { Item } from 'types/items.types';
 import { useEditItem } from 'api/itemsApi';
 import { useQueryClient } from '@tanstack/react-query';

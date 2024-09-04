@@ -15,12 +15,10 @@ export class UsersService {
 
   private readonly filePath = '../../../data/users.json';
 
-  // Fetch all users
   async findAll(): Promise<User[]> {
     return await this.storage.read<User[]>(this.filePath);
   }
 
-  // Fetch a specific user by ID
   async findOne(id: string): Promise<User> {
     const users = await this.findAll();
     const user = users.find((user) => user.id === id);
@@ -66,7 +64,7 @@ export class UsersService {
     const updatedUser = {
       ...existingUser,
       ...updateUserDto,
-      updatedAt: new Date().toISOString(), // update `updatedAt` timestamp
+      updatedAt: new Date().toISOString(),
     };
 
     users[userIndex] = updatedUser;

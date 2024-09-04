@@ -8,11 +8,13 @@ interface RemoveUserFormProps {
 }
 
 const RemoveUserForm: React.FC<RemoveUserFormProps> = ({ user }) => {
-  const { mutate: deleteUser, status, error } = useDeleteUser();
-
-  const isLoading = status === 'pending';
-  const isError = status === 'error';
-  const isSuccess = status === 'success';
+  const {
+    mutate: deleteUser,
+    isPending: isLoading,
+    isError,
+    error,
+    isSuccess,
+  } = useDeleteUser();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

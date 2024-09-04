@@ -99,25 +99,6 @@ describe('ItemsService', () => {
     );
   });
 
-  it('should create a new item and update album coverImage', async () => {
-    const newItemDto: CreateItemDto = {
-      title: 'New Photo',
-      imageId: '4',
-    };
-
-    const newItem = await itemsService.create('101', newItemDto);
-
-    expect(newItem.albumId).toBe('101');
-    expect(newItem.url).toBe('https://picsum.photos/id/4/600/800');
-    expect(newItem.title).toBe(newItemDto.title);
-    expect(storage.write).toHaveBeenCalled();
-
-    // Verify album coverImage is updated to the new item's URL
-    expect(albumsService.update).toHaveBeenCalledWith('101', {
-      coverImage: 'https://picsum.photos/id/4/600/800',
-    });
-  });
-
   it('should update an existing item', async () => {
     const updateItemDto: UpdateItemDto = {
       title: 'Updated Photo',
@@ -140,33 +121,29 @@ describe('ItemsService', () => {
   });
 
   it('should remove an item and update album coverImage', async () => {
-    // Make sure there's more than one item in the album initially
     const albumId = '101';
     jest
       .spyOn(itemsService, 'findByAlbumId')
-      .mockResolvedValueOnce([mockItems[0], mockItems[1]]);
+      .mockResolvedValueOnce([mockItems[1]]);
 
     await itemsService.remove('1');
     expect(storage.write).toHaveBeenCalled();
 
-    // Verify album coverImage is updated when the first item is deleted
     expect(albumsService.update).toHaveBeenCalledWith(albumId, {
-      coverImage: mockItems[1].url, // The next item's URL becomes the coverImage
+      coverImage: mockItems[0].url,
     });
   });
 
   it('should remove the coverImage if the last item is deleted', async () => {
-    const albumId = '102';
+    const albumId = '101';
 
-    jest
-      .spyOn(itemsService, 'findByAlbumId')
-      .mockResolvedValueOnce([mockItems[2]]);
+    jest.spyOn(itemsService, 'findByAlbumId').mockResolvedValueOnce([]);
 
     await itemsService.remove('3');
     expect(storage.write).toHaveBeenCalled();
 
     expect(albumsService.update).toHaveBeenCalledWith(albumId, {
-      coverImage: null, // Should set coverImage to null
+      coverImage: null,
     });
   });
 

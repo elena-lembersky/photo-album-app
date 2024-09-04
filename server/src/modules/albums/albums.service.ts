@@ -3,6 +3,7 @@ import { Injectable, NotFoundException, Inject } from '@nestjs/common';
 import { IStorage } from 'common/interfaces/i-storage.interface';
 import { CreateAlbumDto, UpdateAlbumDto } from './dto';
 import { Album } from './albums.interface';
+import { User } from 'modules/users/users.interface';
 import { UsersService } from '@modules/users/users.service';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -41,13 +42,7 @@ export class AlbumsService {
     };
     albums.push(newAlbum);
     await this.storage.write(this.filePath, albums);
-
-    // Update user's album count
-    const user = await this.usersService.findOne(userId);
-    await this.usersService.update(userId, {
-      albumCount: user.albumCount + 1, // Increment album count
-    });
-
+    await this.updateUserAlbumCount(userId, 1);
     return newAlbum;
   }
 
@@ -69,11 +64,23 @@ export class AlbumsService {
 
     const updatedAlbums = albums.filter((album) => album.id !== id);
     await this.storage.write(this.filePath, updatedAlbums);
+    await this.updateUserAlbumCount(album.userId, -1);
+  }
 
-    // Update user's album count
-    const user = await this.usersService.findOne(album.userId);
-    await this.usersService.update(album.userId, {
-      albumCount: user.albumCount - 1, // Decrement album count
-    });
+  async getUserByID(userId: string): Promise<User> {
+    const user = await this.usersService.findOne(userId);
+    if (!user) {
+      throw new NotFoundException(`User with ID ${userId} not found`);
+    }
+    return user;
+  }
+
+  private async updateUserAlbumCount(
+    userId: string,
+    delta: number,
+  ): Promise<void> {
+    const user = await this.getUserByID(userId);
+    user.albumCount = (user.albumCount || 0) + delta;
+    await this.usersService.update(userId, { albumCount: user.albumCount });
   }
 }

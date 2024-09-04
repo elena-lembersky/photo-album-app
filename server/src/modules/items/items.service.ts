@@ -24,9 +24,10 @@ export class ItemsService {
   }
 
   async findOne(id: string): Promise<Item> {
-    const items = await this.findAll();
-    const item = items.find((item) => item.id === id);
-    if (!item) throw new NotFoundException(`Item with id: ${id} not found`);
+    const item = (await this.findAll()).find((item) => item.id === id);
+    if (!item) {
+      throw new NotFoundException(`Item with id: ${id} not found`);
+    }
     return item;
   }
 
@@ -41,45 +42,46 @@ export class ItemsService {
     items.push(newItem);
     await this.storage.write(this.filePath, items);
 
-    // Update the album's cover image if it's the first item in the album
-    const album = await this.albumsService.findOne(albumId);
-    if (!album.coverImage) {
-      await this.albumsService.update(albumId, { coverImage: newItem.url });
-    }
-
+    await this.updateCoverImage(albumId);
     return newItem;
   }
 
   async update(id: string, updateItemDto: UpdateItemDto): Promise<Item> {
     const items = await this.findAll();
     const itemIndex = items.findIndex((item) => item.id === id);
-    if (itemIndex === -1)
+    if (itemIndex === -1) {
       throw new NotFoundException(`Item with id: ${id} not found`);
-
+    }
     const updatedItem = { ...items[itemIndex], ...updateItemDto };
     items[itemIndex] = updatedItem;
     await this.storage.write(this.filePath, items);
+    await this.updateCoverImage(items[itemIndex].albumId);
     return updatedItem;
   }
 
   async remove(id: string): Promise<void> {
     const items = await this.findAll();
-    const item = items.find((item) => item.id === id);
-    if (!item) throw new NotFoundException(`Item with id: ${id} not found`);
-
-    const updatedItems = items.filter((item) => item.id !== id);
-    await this.storage.write(this.filePath, updatedItems);
-
-    const remainingItems = updatedItems.filter(
-      (i) => i.albumId === item.albumId,
-    );
-
-    if (remainingItems.length === 0) {
-      await this.albumsService.update(item.albumId, { coverImage: null });
-    } else {
-      await this.albumsService.update(item.albumId, {
-        coverImage: remainingItems[0].url,
-      });
+    const itemIndex = items.findIndex((item) => item.id === id);
+    if (itemIndex === -1) {
+      throw new NotFoundException(`Item with id: ${id} not found`);
     }
+
+    const [removedItem] = items.splice(itemIndex, 1);
+    await this.storage.write(this.filePath, items);
+
+    await this.updateCoverImage(removedItem.albumId);
+  }
+
+  private async updateCoverImage(albumId: string): Promise<void> {
+    const items = await this.findByAlbumId(albumId);
+    const album = await this.albumsService.findOne(albumId);
+
+    if (items.length === 0) {
+      album.coverImage = null;
+    } else {
+      album.coverImage = items[0].url;
+    }
+
+    await this.albumsService.update(album.id, { coverImage: album.coverImage });
   }
 }

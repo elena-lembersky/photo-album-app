@@ -3,7 +3,6 @@ import {
   useQuery,
   useMutation,
   useQueryClient,
-  UseMutationResult,
   UseMutationOptions,
 } from '@tanstack/react-query';
 import { ENDPOINTS } from 'constants/api';
@@ -75,8 +74,6 @@ export const useEditAlbum = (
   userId: string,
   options?: UseMutationOptions<Album, Error, Partial<Album> & { id: string }>,
 ) => {
-  const queryClient = useQueryClient();
-
   return useMutation<Album, Error, Partial<Album> & { id: string }>({
     mutationFn: (albumData) => editAlbum(albumData),
     ...options,

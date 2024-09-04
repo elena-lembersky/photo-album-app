@@ -47,7 +47,7 @@ const MainPage = () => {
       >
         <Typography
           variant="h1"
-          sx={{ marginY: 2, minHeight: '200px', padding: '40px 0' }}
+          sx={{ marginY: 2, minHeight: '100px', padding: '40px 0' }}
         >
           The Best Moments in Frame!
         </Typography>

@@ -25,13 +25,10 @@ const GalleryManager = () => {
   const [editingItem, setEditingItem] = useState<Item | null>(null);
   const [removingItem, setRemovingItem] = useState<Item | null>(null);
 
-  const { data: albums = [], isLoading: loadingAlbums } =
-    useAlbums(CURRENT_USER_ID);
+  const { data: albums = [] } = useAlbums(CURRENT_USER_ID);
   const [selectedAlbum, setSelectedAlbum] = useState<Album>(albums[0]);
 
-  const { data: albumItems = [], refetch: refetchItems } = useItems(
-    selectedAlbum?.id,
-  );
+  const { data: albumItems = [] } = useItems(selectedAlbum?.id);
 
   const handleCreateAlbum = () => setCreatingAlbum(true);
   const handleEditAlbum = (album: Album) => setEditingAlbum(album);

@@ -10,10 +10,14 @@ interface CreateItemFormProps {
 const CreateItemForm = ({ albumId }: CreateItemFormProps) => {
   const [title, setTitle] = useState('');
   const [url, setUrl] = useState('');
-  const { mutate: createItem, status, error } = useCreateItem(albumId);
-  const isLoading = status === 'pending';
-  const isError = status === 'error';
-  const isSuccess = status === 'success';
+  const {
+    mutate: createItem,
+    isPending: isLoading,
+    isError,
+    error,
+    isSuccess,
+  } = useCreateItem(albumId);
+
   const queryClient = useQueryClient();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useTheme } from '@mui/material/styles';
 import {
   ImageList,
   ImageListItem,
@@ -22,8 +21,6 @@ const AlbumsList = ({ albums = [] }: AlbumsListProps) => {
       setOpen(true);
     }
   };
-  const theme = useTheme();
-
   const handleClose = () => setOpen(false);
 
   const { data: albumPhotos = [], refetch } = useItems(activeAlbum?.id);

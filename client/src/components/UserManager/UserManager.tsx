@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Grid, Typography, Paper } from '@mui/material';
+import { Container, Grid, Paper } from '@mui/material';
 import UserList from 'components/UserEditList';
 import CreateUserForm from 'components/forms/users/CreateUserForm';
 import EditUserForm from 'components/forms/users/EditUserForm';

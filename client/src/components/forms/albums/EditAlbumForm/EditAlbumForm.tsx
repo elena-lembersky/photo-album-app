@@ -11,11 +11,13 @@ interface EditAlbumFormProps {
 
 const EditAlbumForm: React.FC<EditAlbumFormProps> = ({ album, userId }) => {
   const [title, setTitle] = useState<string>(album.title);
-  const { mutate: updateAlbum, status, error } = useEditAlbum(album.id);
-
-  const isLoading = status === 'pending';
-  const isError = status === 'error';
-  const isSuccess = status === 'success';
+  const {
+    mutate: updateAlbum,
+    isPending: isLoading,
+    isError,
+    error,
+    isSuccess,
+  } = useEditAlbum(album.id);
 
   const queryClient = useQueryClient();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
