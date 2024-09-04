@@ -10,14 +10,16 @@ interface EditUserFormProps {
 const EditUserForm: React.FC<EditUserFormProps> = ({ user }) => {
   const [name, setName] = useState<string>(user.name);
   const [email, setEmail] = useState<string>(user.email);
-  const { mutate: updateUser, status, error } = useEditUser();
-
-  const isLoading = status === 'pending';
-  const isError = status === 'error';
-  const isSuccess = status === 'success';
+  const {
+    mutate: updateUser,
+    isPending: isLoading,
+    isError,
+    error,
+    isSuccess,
+  } = useEditUser();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // Prevent the form from causing a page reload
+    event.preventDefault();
     updateUser(
       { id: user.id, name, email },
       {

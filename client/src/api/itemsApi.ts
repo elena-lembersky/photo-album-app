@@ -1,7 +1,6 @@
 import type { Item, NewItem } from 'types/items.types';
 import {
   useQuery,
-  useQueryClient,
   useMutation,
   UseMutationOptions,
 } from '@tanstack/react-query';
@@ -51,8 +50,6 @@ export const useCreateItem = (
   albumId: string,
   options?: UseMutationOptions<Item, Error, Partial<NewItem>>,
 ) => {
-  const queryClient = useQueryClient();
-
   return useMutation<Item, Error, Partial<NewItem>>({
     mutationFn: (itemData) => createItem(itemData, albumId),
     ...options,
@@ -88,8 +85,6 @@ export const useEditItem = (
   albumId: string,
   options?: UseMutationOptions<Item, Error, Partial<NewItem> & { id: string }>,
 ) => {
-  const queryClient = useQueryClient();
-
   return useMutation<Item, Error, Partial<NewItem> & { id: string }>({
     mutationFn: editItem,
     ...options,
@@ -113,8 +108,6 @@ const deleteItem = async (itemId: string, albumId: string): Promise<void> => {
 };
 
 export const useDeleteItem = (albumId: string) => {
-  const queryClient = useQueryClient();
-
   return useMutation<void, Error, string>({
     mutationFn: (itemId) => deleteItem(itemId, albumId),
   });

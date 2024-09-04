@@ -1,12 +1,14 @@
+// src/modules/albums/albums.module.ts
 import { Module } from '@nestjs/common';
-import { UsersModule } from '@modules/users/users.module';
 import { AlbumsService } from './albums.service';
 import { AlbumsController } from './albums.controller';
+import { UsersModule } from '../users/users.module';
+import { StorageModule } from 'common/storage/storage.module';
 
 @Module({
-  imports: [UsersModule],
-  controllers: [AlbumsController],
+  imports: [StorageModule, UsersModule],
   providers: [AlbumsService],
+  controllers: [AlbumsController],
   exports: [AlbumsService],
 })
 export class AlbumsModule {}

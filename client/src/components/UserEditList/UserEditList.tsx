@@ -17,7 +17,7 @@ interface UserListProps {
   onCreateUser: () => void;
 }
 
-const UserList: React.FC<UserListProps> = ({
+const UserEditList: React.FC<UserListProps> = ({
   onCreateUser,
   onEditUser,
   onDeleteUser,
@@ -85,4 +85,4 @@ const UserList: React.FC<UserListProps> = ({
   );
 };
 
-export default UserList;
+export default UserEditList;

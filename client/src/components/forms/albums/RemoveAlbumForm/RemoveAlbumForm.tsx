@@ -10,11 +10,13 @@ interface RemoveAlbumFormProps {
 }
 
 const RemoveAlbumForm: React.FC<RemoveAlbumFormProps> = ({ album, userId }) => {
-  const { mutate: deleteAlbum, status, error } = useDeleteAlbum(album.id);
-
-  const isLoading = status === 'pending';
-  const isError = status === 'error';
-  const isSuccess = status === 'success';
+  const {
+    mutate: deleteAlbum,
+    isPending: isLoading,
+    isError,
+    error,
+    isSuccess,
+  } = useDeleteAlbum(album.id);
 
   const queryClient = useQueryClient();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

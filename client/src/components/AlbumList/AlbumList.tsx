@@ -16,10 +16,11 @@ const AlbumsList = ({ albums = [] }: AlbumsListProps) => {
   const [open, setOpen] = useState(false);
 
   const handleOpen = (album: Album) => {
-    setActiveAlbum(album);
-    setOpen(true);
+    if (album?.coverImage) {
+      setActiveAlbum(album);
+      setOpen(true);
+    }
   };
-
   const handleClose = () => setOpen(false);
 
   const { data: albumPhotos = [], refetch } = useItems(activeAlbum?.id);
@@ -41,7 +42,7 @@ const AlbumsList = ({ albums = [] }: AlbumsListProps) => {
               position: 'relative',
               width: '100%',
               paddingBottom: '75%',
-              backgroundColor: '#f0f0f0',
+              backgroundColor: 'black',
               cursor: 'pointer',
               '& img': {
                 position: 'absolute',
@@ -61,7 +62,7 @@ const AlbumsList = ({ albums = [] }: AlbumsListProps) => {
               <img
                 srcSet={`${item.coverImage}?w=248&fit=crop&auto=format&dpr=2 2x`}
                 src={`${item.coverImage}?w=248&fit=crop&auto=format`}
-                alt={item.title}
+                alt={item?.title}
                 loading="lazy"
               />
             ) : (
@@ -72,16 +73,24 @@ const AlbumsList = ({ albums = [] }: AlbumsListProps) => {
                 sx={{ position: 'absolute', top: 0, left: 0 }}
               />
             )}
-            <ImageListItemBar title={item.title} />
+            <ImageListItemBar
+              sx={{
+                '.MuiImageListItemBar-title': {
+                  color: (theme) => theme.palette.secondary.main,
+                  fontWeight: 'bold',
+                },
+              }}
+              title={item.title}
+            />
           </ImageListItem>
         ))}
       </ImageList>
       {activeAlbum && (
         <Gallery
           open={open}
-          photos={albumPhotos.map((photo) => ({
+          photos={albumPhotos?.map((photo) => ({
             src: photo.url,
-            title: photo.title,
+            alt: photo.title,
           }))}
           onClose={handleClose}
         />

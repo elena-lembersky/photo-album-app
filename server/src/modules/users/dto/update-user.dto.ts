@@ -23,7 +23,4 @@ export class UpdateUserDto {
 
   @IsOptional()
   albumCount?: number;
-
-  @IsOptional()
-  updatedAt: string = new Date().toISOString();
 }

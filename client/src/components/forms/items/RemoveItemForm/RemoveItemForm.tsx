@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Typography, Box, Grid } from '@mui/material';
+import { Button, Typography, Box } from '@mui/material';
 import { Item } from 'types/items.types';
 import { useDeleteItem } from 'api/itemsApi';
 import { useQueryClient } from '@tanstack/react-query';

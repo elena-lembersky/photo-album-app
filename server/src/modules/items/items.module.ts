@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
-import { AlbumsModule } from '@modules/albums/albums.module';
 import { ItemsService } from './items.service';
 import { ItemsController } from './items.controller';
+import { AlbumsModule } from '../albums/albums.module'; // Импортируем AlbumsModule для связи с альбомами
+import { StorageModule } from 'common/storage/storage.module';
 
 @Module({
-  imports: [AlbumsModule],
-  controllers: [ItemsController],
-  providers: [ItemsService],
+  imports: [AlbumsModule, StorageModule], // Связь с AlbumsModule
+  providers: [ItemsService], // Включаем ItemsService
+  controllers: [ItemsController], // Включаем ItemsController
+  exports: [ItemsService], // Экспортируем ItemsService
 })
 export class ItemsModule {}

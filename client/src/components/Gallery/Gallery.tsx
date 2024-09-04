@@ -1,34 +1,18 @@
-import React, { useRef } from 'react';
-import { Lightbox, ThumbnailsRef } from 'yet-another-react-lightbox';
+import React from 'react';
+import { Lightbox } from 'yet-another-react-lightbox';
 import Thumbnails from 'yet-another-react-lightbox/plugins/thumbnails';
 import 'yet-another-react-lightbox/styles.css';
 import 'yet-another-react-lightbox/plugins/thumbnails.css';
-import type { GalleryPhoto } from './Gallery.types';
-
-export interface GalleryProps {
-  open: boolean;
-  photos: GalleryPhoto[];
-  onClose: () => void;
-}
+import type { GalleryProps } from './Gallery.types';
 
 const Gallery: React.FC<GalleryProps> = ({ open, photos, onClose }) => {
-  const thumbnailsRef = useRef<ThumbnailsRef>(null);
-
   return (
     <Lightbox
       open={open}
       close={onClose}
       slides={photos}
       plugins={[Thumbnails]}
-      thumbnails={{ ref: thumbnailsRef }}
       styles={{ container: { backgroundColor: 'rgba(0, 0, 0, .8)' } }}
-      on={{
-        click: () => {
-          (thumbnailsRef.current?.visible
-            ? thumbnailsRef.current?.hide
-            : thumbnailsRef.current?.show)?.();
-        },
-      }}
       render={{
         buttonClose: () => (
           <button
@@ -48,6 +32,33 @@ const Gallery: React.FC<GalleryProps> = ({ open, photos, onClose }) => {
           >
             ✕
           </button>
+        ),
+        slide: ({ slide }) => (
+          <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+            <img
+              src={slide.src}
+              alt={slide.alt || 'Image'}
+              style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+            />
+            {slide.alt && (
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: 10,
+                  left: 0,
+                  width: '100%',
+                  textAlign: 'center',
+                  color: 'white',
+                  textShadow: '0 0 8px rgba(0, 0, 0, 0.7)',
+                  fontSize: '16px',
+                  padding: '5px 10px',
+                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                }}
+              >
+                {slide.alt}
+              </div>
+            )}
+          </div>
         ),
       }}
     />

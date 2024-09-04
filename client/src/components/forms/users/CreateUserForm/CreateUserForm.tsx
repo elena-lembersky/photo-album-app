@@ -6,11 +6,14 @@ import { useQueryClient } from '@tanstack/react-query';
 const CreateUserForm = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const { mutate: createUser, status, error } = useCreateUser();
+  const {
+    mutate: createUser,
+    isPending: isLoading,
+    isError,
+    error,
+    isSuccess,
+  } = useCreateUser();
   const queryClient = useQueryClient();
-  const isLoading = status === 'pending';
-  const isError = status === 'error';
-  const isSuccess = status === 'success';
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -34,33 +37,6 @@ const CreateUserForm = () => {
     >
       <form onSubmit={handleSubmit}>
         <Grid container direction="column" spacing={2} sx={{ mt: 2 }}>
-          <Grid item mb={2}>
-            <TextField
-              label="Name"
-              variant="outlined"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              fullWidth
-              InputLabelProps={{ shrink: true }}
-              inputProps={{ style: { textAlign: 'left' } }}
-            />
-          </Grid>
-          <Grid item mb={2}>
-            <TextField
-              label="Email"
-              variant="outlined"
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              fullWidth
-              InputLabelProps={{ shrink: true }}
-              inputProps={{ style: { textAlign: 'left' } }}
-            />
-          </Grid>
           <Grid item>
             {isError && (
               <Typography color="error" sx={{ mt: 2, fontSize: '0.875rem' }}>
@@ -73,16 +49,48 @@ const CreateUserForm = () => {
               </Typography>
             )}
           </Grid>
-          <Grid item>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              disabled={isLoading}
-            >
-              {isLoading ? 'Creating...' : 'Submit'}
-            </Button>
-          </Grid>
+          {!isSuccess && (
+            <>
+              <Grid item mb={2}>
+                <TextField
+                  label="Name"
+                  variant="outlined"
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  fullWidth
+                  InputLabelProps={{ shrink: true }}
+                  inputProps={{ style: { textAlign: 'left' } }}
+                />
+              </Grid>
+              <Grid item mb={2}>
+                <TextField
+                  label="Email"
+                  variant="outlined"
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  fullWidth
+                  InputLabelProps={{ shrink: true }}
+                  inputProps={{ style: { textAlign: 'left' } }}
+                />
+              </Grid>
+
+              <Grid item>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  disabled={isLoading}
+                >
+                  {isLoading ? 'Creating...' : 'Submit'}
+                </Button>
+              </Grid>
+            </>
+          )}
         </Grid>
       </form>
     </Box>
