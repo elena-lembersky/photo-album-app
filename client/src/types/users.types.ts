@@ -5,9 +5,3 @@ export interface User {
   albumCount: number;
   isSelected?: boolean;
 }
-
-export interface UpdateUserData {
-  id: string;
-  name?: string;
-  email?: string;
-}

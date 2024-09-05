@@ -52,5 +52,17 @@
     "userId": "01f5217d-3ab8-43b7-9cb1-d72ed7b29e5d",
     "title": "Nature",
     "coverImage": "https://picsum.photos/id/88/600/800"
+  },
+  {
+    "id": "2eb8e0c4-ea12-4928-80cd-4d2cc0f794f5",
+    "userId": "01f5217d-3ab8-43b7-9cb1-d72ed7b29e5d",
+    "title": "New Year",
+    "coverImage": "https://picsum.photos/id/89/600/800"
+  },
+  {
+    "id": "928626a7-8b1d-4911-ba3e-b1149b064ea2",
+    "userId": "01f5217d-3ab8-43b7-9cb1-d72ed7b29e5d",
+    "title": "Fun Day",
+    "coverImage": "https://picsum.photos/id/56/600/800"
   }
 ]

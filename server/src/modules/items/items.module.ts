@@ -5,9 +5,9 @@ import { AlbumsModule } from '../albums/albums.module'; // Импортируе�
 import { StorageModule } from 'common/storage/storage.module';
 
 @Module({
-  imports: [AlbumsModule, StorageModule], // Связь с AlbumsModule
-  providers: [ItemsService], // Включаем ItemsService
-  controllers: [ItemsController], // Включаем ItemsController
-  exports: [ItemsService], // Экспортируем ItemsService
+  imports: [AlbumsModule, StorageModule],
+  providers: [ItemsService],
+  controllers: [ItemsController],
+  exports: [ItemsService],
 })
 export class ItemsModule {}

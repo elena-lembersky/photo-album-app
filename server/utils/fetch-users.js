@@ -27,7 +27,6 @@ async function saveUsers(users) {
   const filePath = path.join(__dirname, '../data', 'users.json');
   try {
     await fs.promises.writeFile(filePath, JSON.stringify(users, null, 2));
-    console.log('Users have been saved to users.json successfully!');
   } catch (err) {
     console.error('Error writing file:', err);
   }

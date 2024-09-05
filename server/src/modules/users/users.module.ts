@@ -6,8 +6,8 @@ import { StorageModule } from 'common/storage/storage.module';
 
 @Module({
   imports: [StorageModule],
-  providers: [UsersService], // Включаем UsersService
-  controllers: [UsersController], // Включаем UsersController
-  exports: [UsersService], // Экспортируем UsersService для использования в других модулях
+  providers: [UsersService],
+  controllers: [UsersController],
+  exports: [UsersService],
 })
 export class UsersModule {}

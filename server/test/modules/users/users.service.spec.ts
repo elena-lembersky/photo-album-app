@@ -24,7 +24,6 @@ describe('UsersService', () => {
     },
   ];
 
-  // Mock implementation of the IStorage interface
   const mockStorage = {
     read: jest.fn().mockResolvedValue(mockUsers),
     write: jest.fn().mockResolvedValue(undefined),
