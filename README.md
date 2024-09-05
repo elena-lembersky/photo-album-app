@@ -304,7 +304,7 @@ yarn test`
 # TODO & IMPROVEMENTS
 
 ### **Optimization**
--   Mongo DB
+-   Mongo DB (now save data locally)
 -   Use a CDN to improve performance for static assets.
 -   Add backend caching (e.g., using `memoizee` for server-side caching).
 -   Set up a base for managing environment variables.
@@ -313,6 +313,7 @@ yarn test`
 -   Implement photos pagination (upload 10 initially, load more when the user clicks right).
 -   CI/CD
 -   Unit tests
+-   React components optimisatipn (useMemo, useCallback)
 
 ### **Client**
 -   Add functionality to delete albums when deleting a user.
@@ -322,3 +323,4 @@ yarn test`
 -   Consider combining `UsersList` and `UsersEditList` into a single component with different props.
 -   Clean up the code (UI and logic improvements).
 -   Show only albums that have a cover image.
+-   Mobile responsive
